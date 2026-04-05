@@ -1,0 +1,32 @@
+*.iml
+.gradle
+/local.properties
+/.idea/caches/
+/.idea/libraries/
+/.idea/modules.xml
+/.idea/workspace.xml
+/.idea/navEditor.xml
+/.idea/assetWizardSettings.xml
+.DS_Store
+/build
+/captures
+.externalNativeBuild
+.cxx
+local.properties
+
+# Android Studio Navigation Editor
+.navigation/
+
+# Android Studio local properties
+local.properties
+
+# Android Studio configuration
+.idea/
+
+# Android build directory
+app/build/
+build/
+
+# Google-Services
+google-services.json
+app/google-services.json
