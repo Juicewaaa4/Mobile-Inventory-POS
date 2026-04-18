@@ -528,8 +528,9 @@ fun AdminSalesTodayScreen(navController: NavController, viewModel: MainViewModel
                             )
                         }
                         Column(horizontalAlignment = Alignment.End) {
+                            val totalMargin = if (todayTotalRevenue > 0) (todayTotalProfit / todayTotalRevenue) * 100 else 0.0
                             Text(
-                                "Profit (Kinita)",
+                                "Profit (Kinita) • ${"%.1f".format(totalMargin)}%",
                                 style = MaterialTheme.typography.labelSmall,
                                 color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.6f)
                             )
@@ -573,7 +574,7 @@ fun AdminSalesTodayScreen(navController: NavController, viewModel: MainViewModel
                 )
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
-                    "Export to Excel (CSV)",
+                    "Export to Excel",
                     fontWeight = FontWeight.SemiBold
                 )
             }
@@ -831,8 +832,9 @@ fun AdminItemRow(
                     tint = if (profitPerUnit > 0) GreenSecondary else GreenError
                 )
                 Spacer(modifier = Modifier.width(4.dp))
+                val marginStr = if (item.price > 0) " (${"%.1f".format((profitPerUnit / item.price) * 100)}%)" else ""
                 Text(
-                    "₱${"%.2f".format(profitPerUnit)}/unit • Total: ₱${"%.2f".format(totalProfit)}",
+                    "₱${"%.2f".format(profitPerUnit)}/unit$marginStr • Total: ₱${"%.2f".format(totalProfit)}",
                     style = MaterialTheme.typography.bodySmall,
                     fontWeight = FontWeight.SemiBold,
                     color = if (profitPerUnit > 0) GreenSecondary else GreenError
@@ -852,7 +854,10 @@ fun AdminItemRow(
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 // Stock controls
-                Row(verticalAlignment = Alignment.CenterVertically) {
+                Row(
+                    modifier = Modifier.weight(1f),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
                     FilledTonalIconButton(
                         onClick = onMinusStock,
                         modifier = Modifier.size(34.dp),
@@ -880,8 +885,8 @@ fun AdminItemRow(
                             }
                         ),
                         modifier = Modifier
-                            .width(78.dp)
-                            .padding(horizontal = 14.dp),
+                            .weight(1f)
+                            .padding(horizontal = 8.dp),
                         shape = RoundedCornerShape(10.dp),
                         colors = OutlinedTextFieldDefaults.colors(
                             focusedBorderColor = GreenPrimary,
@@ -1063,8 +1068,9 @@ fun AddItemDialog(onDismiss: () -> Unit, onAdd: (String, Double, Double, Int, St
                         style = MaterialTheme.typography.labelSmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
+                    val marginPct = if (parsedPrice != null && parsedPrice > 0) " (${"%.1f".format(((computedProfitPerUnit ?: 0.0) / parsedPrice) * 100)}%)" else ""
                     Text(
-                        "Profit per piece: ₱${"%.2f".format(computedProfitPerUnit ?: 0.0)}",
+                        "Profit per piece: ₱${"%.2f".format(computedProfitPerUnit ?: 0.0)}$marginPct",
                         style = MaterialTheme.typography.bodySmall,
                         fontWeight = FontWeight.SemiBold,
                         color = if ((computedProfitPerUnit ?: 0.0) >= 0) GreenSecondary else GreenError

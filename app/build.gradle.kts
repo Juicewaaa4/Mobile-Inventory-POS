@@ -10,7 +10,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.mobileinventory"
-        minSdk = 24
+        minSdk = 26
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -47,11 +47,22 @@ android {
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
+            excludes += "/META-INF/DEPENDENCIES"
+            excludes += "/META-INF/LICENSE"
+            excludes += "/META-INF/LICENSE.txt"
+            excludes += "/META-INF/NOTICE"
+            excludes += "/META-INF/NOTICE.txt"
         }
     }
 }
 
+configurations.all {
+    exclude(group = "org.apache.logging.log4j")
+}
+
 dependencies {
+    // FastExcel for Android-compatible Excel export
+    implementation("org.dhatim:fastexcel:0.19.0")
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.4")
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")
